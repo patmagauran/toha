@@ -13,7 +13,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
 
 <!--================= fab-icon =========================-->
-<link rel="icon" type="image/png" href="{{ site.Params.logo.favicon | default "/assets/images/favicon.png" | relURL }}" />
+{{ $authorImage:= "/assets/images/favicon.png" }}
+{{ if site.Params.logo.favicon }}
+  {{ $authorImage = site.Params.logo.favicon }}
+{{ end }}
+{{ $authorImage := resources.Get $authorImage }}
+{{ $authorImage := $authorImage.Fit "16x16" }}
+<link rel="icon" type="image/png" href="{{ $authorImage.RelPermalink | relURL }}" />
 
 <!--================= custom style overrides =========================-->
 <link rel="stylesheet" href="{{ "/assets/css/style.css" | relURL }}"/>

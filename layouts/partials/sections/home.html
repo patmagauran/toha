@@ -33,41 +33,57 @@
 
 {{/* set image sizes, these are hardcoded for now, x dictates that images are resized to this width */}}
 
-{{ $tinyw := default "500x" }}
-{{ $smallw := default "800x" }}
-{{ $mediumw := default "1200x" }}
-{{ $largew := default "1500x" }}
+{{ $tinyw := default "800x" }}
+{{ $smallw := default "1200x" }}
+{{ $mediumw := default "1500x" }}
+{{ $largew := default "2000x" }}
+{{ $xlargew := default "2000x" }}
+{{ $xxlargew := default "2500x" }}
 
 {{/* resize the src image to the given sizes */}}
-
+{{ $src = $src.Filter (images.GaussianBlur 10)}}
 {{ $tiny := $src.Resize $tinyw }}
 {{ $small := $src.Resize $smallw }}
 {{ $medium := $src.Resize $mediumw }}
 {{ $large := $src.Resize $largew }}
-
+{{ $xlarge := $src.Resize $xlargew }}
+{{ $xxlarge := $src.Resize $xxlargew }}
 {{/* only use images smaller than or equal to the src (original) image size, as Hugo will upscale small images */}}
 {{/* set the sizes attribute to (min-width: 35em) 1200px, 100vw unless overridden in shortcode */}}
 
-{{ if lt $src.Width "500" }}
+{{ if lt $src.Width "800" }}
 {{ $tiny := $src}}
 {{ $small := $src}}
 {{ $medium := $src}}
 {{ $large := $src}}
-
+{{ $xlarge := $src}}
+{{ $xxlarge := $src}}
 {{ end }}
-{{ if lt $src.Width "800" }}
+{{ if lt $src.Width "1200" }}
 {{ $small := $src}}
 {{ $medium := $src}}
 {{ $large := $src}}
-{{ end }}
-{{ if lt $src.Width "1200" }}
-{{ $medium := $src}}
-{{ $large := $src}}
+{{ $xlarge := $src}}
+{{ $xxlarge := $src}}
 {{ end }}
 {{ if lt $src.Width "1500" }}
+{{ $medium := $src}}
 {{ $large := $src}}
+{{ $xlarge := $src}}
+{{ $xxlarge := $src}}
 {{ end }}
-
+{{ if lt $src.Width "2000" }}
+{{ $large := $src}}
+{{ $xlarge := $src}}
+{{ $xxlarge := $src}}
+{{ end }}
+{{ if lt $src.Width "2700" }}
+{{ $xlarge := $src}}
+{{ $xxlarge := $src}}
+{{ end }}
+{{ if lt $src.Width "3500" }}
+{{ $xxlarge := $src}}
+{{ end }}
 <div class="container-fluid home" id="home">
   <style>
     /* 0 to 299 */
@@ -75,24 +91,29 @@
         background-image: url('{{ $tiny.RelPermalink }}'); 
     }
     /* 300 to X */
-    @media (min-width: 500px) and (max-width: 800px) { /* or 301 if you want really the same as previously.  */
+    @media (min-width: 800px) and (max-width: 1200px) { /* or 301 if you want really the same as previously.  */
       #homePageBackgroundImageDivStyled {   
             background-image: url('{{ $small.RelPermalink }}');
         }
     }
-    @media (min-width: 801px) and (max-width: 1200px) { /* or 301 if you want really the same as previously.  */
+    @media (min-width: 1201px) and (max-width: 1500px) { /* or 301 if you want really the same as previously.  */
       #homePageBackgroundImageDivStyled {   
             background-image: url('{{ $medium.RelPermalink }}');
         }
     }
-    @media (min-width: 1201px) and (max-width: 1500px) { /* or 301 if you want really the same as previously.  */
+    @media (min-width: 1501px) and (max-width: 2000px) { /* or 301 if you want really the same as previously.  */
       #homePageBackgroundImageDivStyled {   
             background-image: url('{{ $large.RelPermalink }}');
         }
     }
-    @media (min-width: 1501px) { /* or 301 if you want really the same as previously.  */
+    @media (min-width: 2001px) and (max-width: 2700px) { /* or 301 if you want really the same as previously.  */
       #homePageBackgroundImageDivStyled {   
-            background-image: url('{{ $src.RelPermalink }}');
+            background-image: url('{{ $xlarge.RelPermalink }}');
+        }
+    }
+    @media (min-width: 2701px) { /* or 301 if you want really the same as previously.  */
+      #homePageBackgroundImageDivStyled {   
+            background-image: url('{{ $xxlarge.RelPermalink }}');
         }
     }
     </style>
