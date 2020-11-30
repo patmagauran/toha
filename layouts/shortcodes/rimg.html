@@ -1,7 +1,7 @@
 {{/* Combination of code taken from: https://alexlakatos.com/web/2020/07/17/hugo-image-processing/ & https://dev.to/stereobooster/responsive-images-for-hugo-dn9}}
 
 {{/* get file that matches the filename as specified as src="" in shortcode */}}
-{{ $src := resources.GetMatch (.Get "src") }}
+{{ $src := .Page.Resources.GetMatch (printf "*%s*" (.Get "src")) }}
 
 {{ if in (.Get "src") "http" }}
 <img src="{{$src}}" {{ with .Get "alt" }}alt="{{.}}"{{ else }}alt=""{{ end }}>

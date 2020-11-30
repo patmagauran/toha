@@ -2,15 +2,19 @@
   <a class="skill-card-link" href="{{ if .url }}{{ .url }}{{ else }}#{{ end }}">
     <div class="card">
       <div class="card-head d-flex">
-        {{ if .logo }}
+        {{ if .icon }}
 
-        {{ $logoImage:= resources.Get .logo}}
+        {{ $logoImage:= resources.Get .icon}}
+        {{if in "png,jpg" $logoImage.MediaType.SubType}}
         {{ if $logoImage }}
         {{ $logoImage := $logoImage.Fit "24x24" }}
-
+        
         <img class="card-img-xs" src="{{ $logoImage.RelPermalink }}" alt="{{ .name }}" />
         {{ end }}
+        {{ else}}
+        <img class="card-img-xs" src="{{ $logoImage.RelPermalink }}" alt="{{ .name }}" />
         {{ end }}
+        {{ end}}
         <h5 class="card-title">{{ .name }}</h5>
       </div>
       <div class="card-body">
