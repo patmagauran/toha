@@ -1,6 +1,7 @@
-<script src="{{ "/assets/js/jquery-3.4.1.min.js" | relURL }}"></script>
-<script src="{{ "/assets/js/popper.min.js" | relURL }}"></script>
-<script src="{{ "/assets/js/bootstrap.min.js" | relURL }}"></script>
-
-<script src="{{ "/assets/js/navbar.js" | relURL }}"></script>
-<script src="{{ "/assets/js/main.js" | relURL }}"></script>
+{{ $jqueryJs := resources.Get "js/jquery-3.4.1.min.js" }}
+{{ $popperJs := resources.Get "js/popper.min.js" }}
+{{ $bootStrapJs := resources.Get "js/bootstrap.min.js" }}
+{{ $navbarJs := resources.Get "js/navbar.js" }}
+{{ $mainJs := resources.Get "js/main.js" }}
+{{ $js := slice $jqueryJs $popperJs $bootStrapJs $navbarJs $mainJs  | resources.Concat "js/scripts.js" | minify}}
+<script src="{{ $js.RelPermalink }}"></script>

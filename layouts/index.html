@@ -15,14 +15,21 @@
     {{- partial "header.html" . -}}
 
     <!-- import index page specific headers -->
-    <link rel="stylesheet" href="{{ "/assets/css/sections/home.css" | relURL }}"/>
-    <link rel="stylesheet" href="{{ "/assets/css/sections/about.css" | relURL }}"/>
-    <link rel="stylesheet" href="{{ "/assets/css/sections/skills.css" | relURL }}"/>
-    <link rel="stylesheet" href="{{ "/assets/css/sections/experiences.css" | relURL }}"/>
-    <link rel="stylesheet" href="{{ "/assets/css/sections/education.css" | relURL }}"/>
-    <link rel="stylesheet" href="{{ "/assets/css/sections/projects.css" | relURL }}"/>
-    <link rel="stylesheet" href="{{ "/assets/css/sections/recent-posts.css" | relURL }}"/>
-    <link rel="stylesheet" href="{{ "/assets/css/sections/achievements.css" | relURL }}"/>
+
+
+{{ $homeCss := resources.Get "css/sections/home.css" }}
+{{ $aboutCss := resources.Get "css/sections/about.css" }}
+{{ $skillsCss := resources.Get "css/sections/skills.css" }}
+{{ $experiencesCss := resources.Get "css/sections/experiences.css" }}
+{{ $educationCss := resources.Get "css/sections/education.css" }}
+{{ $projectsCss := resources.Get "css/sections/projects.css" }}
+{{ $recentPostsCss := resources.Get "css/sections/recent-posts.css" }}
+{{ $achievementsCss := resources.Get "css/sections/achievements.css" }}
+{{ $css := slice $homeCss $aboutCss $skillsCss $experiencesCss $educationCss $projectsCss $recentPostsCss $achievementsCss | resources.Concat "css/indexPage.css" }}
+{{ $style := $css | resources.Minify }}
+
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}"/>
+
 
     <!-- Add Google Analytics if enabled in configuration -->
     {{ if site.GoogleAnalytics }}
@@ -71,9 +78,12 @@
     {{ partial "scripts.html" . }}
 
     <!--- ADD INDEX PAGE SPECIFIC SCRIPTS -->
-    <script src="{{ "/assets/js/itype.min.js" | relURL }}"></script>
-    <script src="{{ "/assets/js/github-button.js" | relURL }}"></script>
-    <script src="{{ "/assets/js/home.js" | relURL }}"></script>
-    <script src="{{ "/assets/js/jquery.filterizr.min.js" | relURL }}"></script>
+    {{ $itypeJs := resources.Get "js/itype.min.js" }}
+    {{ $githubButtonJs := resources.Get "js/github-button.js" }}
+    {{ $homeJs := resources.Get "js/home.js" }}
+    {{ $filterizrJs := resources.Get "js/jquery.filterizr.min.js" }}
+{{ $js := slice $itypeJs $githubButtonJs $homeJs $filterizrJs  | resources.Concat "js/indexPage.js" | minify}}
+    <script src="{{ $js.RelPermalink }}"></script>
+
   </body>
 </html>

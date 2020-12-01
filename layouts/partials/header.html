@@ -3,10 +3,16 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
 <!-- ============ import common css ========== -->
-<link rel="stylesheet" href="{{ "/assets/css/bootstrap.min.css" | relURL }}"/>
-<link rel="stylesheet" href="{{ "/assets/css/layouts/main.css" | relURL }}"/>
-<link rel="stylesheet" href="{{ "/assets/css/style.css" | relURL }}"/>
-<link rel="stylesheet" href="{{ "/assets/css/navigators/navbar.css" | relURL }}"/>
+{{ $bootstrapCss := resources.Get "css/bootstrap.min.css" }}
+{{ $mainCss := resources.Get "css/layouts/main.css" }}
+{{ $styleCss := resources.Get "css/style.css" }}
+{{ $navbarCss := resources.Get "css/navigators/navbar.css" }}
+{{ $css := slice $mainCss $navbarCss $styleCss | resources.Concat "css/main.css" }}
+{{ $style := $css | minify }}
+
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}"/>
+    <link rel="stylesheet" href="{{ $bootstrapCss.RelPermalink }}"/>
+
 
 <!--=================== cdn ==============================-->
 <link href="https://fonts.googleapis.com/css2?family=Muli:wght@300;400;500;600" rel="stylesheet">
@@ -22,4 +28,3 @@
 <link rel="icon" type="image/png" href="{{ $authorImage.RelPermalink | relURL }}" />
 
 <!--================= custom style overrides =========================-->
-<link rel="stylesheet" href="{{ "/assets/css/style.css" | relURL }}"/>
